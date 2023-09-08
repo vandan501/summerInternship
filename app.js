@@ -1,7 +1,7 @@
 let openShopping = document.querySelector('.shopping');
 let closeShopping = document.querySelector('.closeShopping');
 let list = document.querySelector('.list');
-let listcart = document.querySelector('.listcart');
+let listCard = document.querySelector('.listCard');
 let body = document.querySelector('body');
 let total = document.querySelector('.total');
 let quantity = document.querySelector('.quantity');
@@ -11,81 +11,91 @@ openShopping.addEventListener('click', ()=>{
 })
 closeShopping.addEventListener('click', ()=>{
     body.classList.remove('active');
-
 })
 
 let products = [
     {
         id: 1,
-        name: 'PRODUCT NAME 1',
-        image: '1.PNG',
-        price: 120
+        name: 'Bhaaji Paav',
+        image: 'pav-bhaji.jpg',
+        price: 150 // Price in INR
     },
     {
         id: 2,
-        name: 'PRODUCT NAME 2',
-        image: '2.PNG',
-        price: 120000
+        name: 'Pauva',
+        image: 'pauva.jpg',
+        price: 200 // Price in INR
     },
     {
         id: 3,
-        name: 'PRODUCT NAME 3',
-        image: '3.PNG',
-        price: 220000
+        name: 'Gujarati Thaali',
+        image: 'gujaratifixedthali.jpg',
+        price: 250 // Price in INR
     },
     {
         id: 4,
-        name: 'PRODUCT NAME 4',
-        image: '4.PNG',
-        price: 123000
+        name: 'Dhokala',
+        image: 'dhokala.jpg',
+        price: 120 // Price in INR
     },
     {
         id: 5,
-        name: 'PRODUCT NAME 5',
-        image: '5.PNG',
-        price: 320000
+        name: 'Kadhi Khichadi',
+        image: 'kadhi-khadi.jpg',
+        price: 180 // Price in INR
     },
     {
         id: 6,
-        name: 'PRODUCT NAME 6',
-        image: '6.PNG',
-        price: 120000
+        name: 'Khandvi',
+        image: 'khandvi.jpg',
+        price: 160 // Price in INR
+    },
+    {
+        id: 7,
+        name: 'Punjabi Thaali',
+        image: 'thali-punjabi-fixed.jpg',
+        price: 280 // Price in INR
+    },
+    {
+        id: 8,
+        name: 'Fafda Jalebi',
+        image: 'jalebifafda.jpg',
+        price: 300 // Price in INR
     }
 ];
-let listcarts  = [];
+let listCards  = [];
 function initApp(){
     products.forEach((value, key) =>{
         let newDiv = document.createElement('div');
         newDiv.classList.add('item');
         newDiv.innerHTML = `
-            <img src="image/${value.image}">
+            <img src="img/${value.image}">
             <div class="title">${value.name}</div>
             <div class="price">${value.price.toLocaleString()}</div>
-            <button onclick="addTocart(${key})">Add To cart</button>`;
+            <button onclick="addToCard(${key})">Add To Card</button>`;
         list.appendChild(newDiv);
     })
 }
 initApp();
-
-function addTocart(key){
-    if(listcarts[key] == null){
-        // copy product form list to list cart
-        listcarts[key] = JSON.parse(JSON.stringify(products[key]));
-        listcarts[key].quantity = 1;
+function addToCard(key){
+    if(listCards[key] == null){
+        // copy product form list to list card
+        listCards[key] = JSON.parse(JSON.stringify(products[key]));
+        listCards[key].quantity = 1;
     }
-    reloadcart();
+    reloadCard();
 }
-function reloadcart(){
-    listcart.innerHTML = '';
+function reloadCard(){
+    listCard.innerHTML = '';
     let count = 0;
     let totalPrice = 0;
-    listcarts.forEach((value, key)=>{
+    listCards.forEach((value, key)=>{
         totalPrice = totalPrice + value.price;
         count = count + value.quantity;
         if(value != null){
             let newDiv = document.createElement('li');
             newDiv.innerHTML = `
-                <div><img src="image/${value.image}"/></div>
+                <div><img src="img/${value.image}"/></div>
                 <div>${value.name}</div>
                 <div>${value.price.toLocaleString()}</div>
                 <div>
@@ -93,7 +103,7 @@ function reloadcart(){
                     <div class="count">${value.quantity}</div>
                     <button onclick="changeQuantity(${key}, ${value.quantity + 1})">+</button>
                 </div>`;
-                listcart.appendChild(newDiv);
+                listCard.appendChild(newDiv);
         }
     })
     total.innerText = totalPrice.toLocaleString();
@@ -101,10 +111,10 @@ function reloadcart(){
 }
 function changeQuantity(key, quantity){
     if(quantity == 0){
-        delete listcarts[key];
+        delete listCards[key];
     }else{
-        listcarts[key].quantity = quantity;
-        listcarts[key].price = quantity * products[key].price;
+        listCards[key].quantity = quantity;
+        listCards[key].price = quantity * products[key].price;
     }
-    reloadcart();
+    reloadCard();
 }
